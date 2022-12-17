@@ -12,7 +12,16 @@
 (global-set-key "\C-t" 'other-window)
 ;; vterm comand
 (global-set-key "\C-x\C-t" 'multi-vterm)
+;; vim like window move
+(global-set-key (kbd "C-x k") 'windmove-up)
+(global-set-key (kbd "C-x j") 'windmove-down)
+(global-set-key (kbd "C-x l") 'windmove-right)
+(global-set-key (kbd "C-x h") 'windmove-left)
+;; ctrl-z = undo
+(global-unset-key "\C-z")
+(global-set-key "\C-z" 'undo)
 
+                
 ; ----
 ; preferences
 ; ----
@@ -49,7 +58,6 @@
   (beacon-mode)
   (nyan-mode)
   (multi-vterm))
-
 (my-startup-commands)
 
 ;; recentf
@@ -88,9 +96,24 @@
 ;; -------------use-package------------
 
 
+;; treemacs
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "\M-0") #'treemacs-select-window)))
+    
 ;; multivterm
 (use-package multi-vterm :ensure t)
-(use-package beacon-mode :ensure t)
+
+
+;; beacon-mode
+(beacon-mode 1)
+(setq beacon-push-mark 35)
+(setq beacon-color "#008080")
+
+
 ;; for filetreeview
 (use-package neotree
   :ensure t
@@ -156,11 +179,7 @@
 (use-package company
   :ensure t
   :init (global-company-mode))
-
-
-;; .emacs.d/init.el
-(server-start)
-
+  
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -171,7 +190,7 @@
  '(custom-safe-themes
    '("bddf21b7face8adffc42c32a8223c3cc83b5c1bbd4ce49a5743ce528ca4da2b6" "05626f77b0c8c197c7e4a31d9783c4ec6e351d9624aa28bc15e7f6d6a6ebd926" default))
  '(package-selected-packages
-   '(nyan-mode prettier slime prettier-js beacon multi-vterm zoom gruber-darker-theme web-mode dracula-theme vterm helm))
+   '(treemacs nyan-mode prettier slime prettier-js beacon multi-vterm zoom gruber-darker-theme web-mode dracula-theme vterm helm))
  '(warning-suppress-log-types '((server))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
