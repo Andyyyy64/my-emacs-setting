@@ -1,7 +1,8 @@
 ;; ----------------
-
 ;; key bind
 ;; ----------------
+
+
 ;; C-h
 (global-set-key "\C-h" 'delete-backward-char)
 ;; help
@@ -11,7 +12,7 @@
 ;; window operation
 (global-set-key "\C-t" 'other-window)
 ;; vterm comand
-(global-set-key "\C-x\C-t" 'multi-vterm)
+(global-set-key (kbd "C-c v") 'multi-vterm)
 ;; vim like window move
 (global-set-key (kbd "C-x k") 'windmove-up)
 (global-set-key (kbd "C-x j") 'windmove-down)
@@ -20,11 +21,14 @@
 ;; ctrl-z = undo
 (global-unset-key "\C-z")
 (global-set-key "\C-z" 'undo)
+;; find-file-other-window
+(global-set-key (kbd "C-x f") 'find-file-other-window)
 
-                
+
 ; ----
 ; preferences
-; ----
+                                        ; ----
+
 ; Enable automatic completion of parentheses
 (electric-pair-mode 1)
 ;; diable scroolbar
@@ -59,6 +63,11 @@
   (nyan-mode)
   (multi-vterm))
 (my-startup-commands)
+
+
+;; find file in tarminal
+(setq multi-vterm-find-file-function #'multi-vterm-find-file-in-current-directory)
+
 
 ;; recentf
 
@@ -102,8 +111,9 @@
   :defer t
   :init
   (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "\M-0") #'treemacs-select-window)))
-    
+    (define-key winum-keymap (kbd "C-c t") 'treemacs-select-window)))
+
+
 ;; multivterm
 (use-package multi-vterm :ensure t)
 
@@ -190,7 +200,7 @@
  '(custom-safe-themes
    '("bddf21b7face8adffc42c32a8223c3cc83b5c1bbd4ce49a5743ce528ca4da2b6" "05626f77b0c8c197c7e4a31d9783c4ec6e351d9624aa28bc15e7f6d6a6ebd926" default))
  '(package-selected-packages
-   '(treemacs nyan-mode prettier slime prettier-js beacon multi-vterm zoom gruber-darker-theme web-mode dracula-theme vterm helm))
+   '(all-the-icons treemacs nyan-mode prettier slime prettier-js beacon multi-vterm zoom gruber-darker-theme web-mode dracula-theme vterm helm))
  '(warning-suppress-log-types '((server))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
