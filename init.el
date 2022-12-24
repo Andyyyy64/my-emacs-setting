@@ -23,11 +23,14 @@
 (global-set-key "\C-z" 'undo)
 ;; find-file-other-window
 (global-set-key (kbd "C-x f") 'find-file-other-window)
+;; ace-windows
+(global-set-key (kbd "C-x g") 'ace-window)
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 
 ; ----
 ; preferences
-                                        ; ----
+; ----
 
 ; Enable automatic completion of parentheses
 (electric-pair-mode 1)
@@ -47,13 +50,34 @@
 (show-paren-mode 1)
 ;; display menu bar
 (menu-bar-mode -1)
-;; show tool bar 
+;; show tool bar
 (tool-bar-mode -1)
 
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
+;; tide
+(require 'tide)
+(global-set-key (kbd "<f10>") 'tide-format)
+
+;; flycheck
+(use-package flycheck
+  :config
+  (when (locate-library "flycheck-irony")
+    (flycheck-irony-setup))
+  (global-flycheck-mode t)
+  )
+
+;; irony
+(use-package irony
+  :commands irony-mode
+  :config
+  (custom-set-variables '(irony-additional-clang-options '("-std=c++17")))
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (add-hook 'c-mode-common-hook 'irony-mode)
+  )
 
 ;; change startup
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -70,7 +94,6 @@
 
 
 ;; recentf
-
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (setq recentf-max-saved-items 25)
@@ -180,6 +203,10 @@
   )
 
 ;; for c,c++
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+
 (use-package cc-mode
   :ensure t
   :mode "\\.cpp\\'" "\\.h\\'" "\\.c\\'")
@@ -200,7 +227,7 @@
  '(custom-safe-themes
    '("bddf21b7face8adffc42c32a8223c3cc83b5c1bbd4ce49a5743ce528ca4da2b6" "05626f77b0c8c197c7e4a31d9783c4ec6e351d9624aa28bc15e7f6d6a6ebd926" default))
  '(package-selected-packages
-   '(all-the-icons treemacs nyan-mode prettier slime prettier-js beacon multi-vterm zoom gruber-darker-theme web-mode dracula-theme vterm helm))
+   '(flycheck-irony irony-eldoc all-the-icons treemacs nyan-mode prettier slime prettier-js beacon multi-vterm zoom gruber-darker-theme web-mode dracula-theme vterm helm))
  '(warning-suppress-log-types '((server))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
